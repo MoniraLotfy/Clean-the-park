@@ -1,4 +1,3 @@
-
 const trashTypes = ["🍟","🍔","🥑","🍬","🤡"];
 let level = 1;
 let trashCount = 3;
@@ -75,15 +74,18 @@ bin.addEventListener("drop", e=>{
   if(dragged) handleCatch(dragged);
 });
 
-// Touch drop
+// Touch drop check
 function checkTouchDrop(trash){
   const binRect = bin.getBoundingClientRect();
   const trashRect = trash.getBoundingClientRect();
+  const trashCenterX = trashRect.left + trashRect.width/2;
+  const trashCenterY = trashRect.top + trashRect.height/2;
+
   if(
-    trashRect.left + trashRect.width/2 > binRect.left &&
-    trashRect.left + trashRect.width/2 < binRect.right &&
-    trashRect.top + trashRect.height/2 > binRect.top &&
-    trashRect.top + trashRect.height/2 < binRect.bottom
+    trashCenterX > binRect.left &&
+    trashCenterX < binRect.right &&
+    trashCenterY > binRect.top &&
+    trashCenterY < binRect.bottom
   ){
     handleCatch(trash);
   }
