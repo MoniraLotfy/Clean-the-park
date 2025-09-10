@@ -1,3 +1,4 @@
+
 const trashTypes = ["🍟","🍔","🥑","🍬","🤡"];
 let level = 1;
 let trashCount = 3;
@@ -39,25 +40,33 @@ function createTrash(num){
       trash.classList.remove("wiggle");
     });
 
-    // Mobile drag
+    // Mobile drag (اصلاح‌شده)
     trash.addEventListener("touchstart", function(e){
       trash.classList.add("wiggle");
-      const parentRect = document.querySelector(".game-wrap").getBoundingClientRect();
-      trash.initialX = e.touches[0].clientX - trash.offsetLeft - parentRect.left;
-      trash.initialY = e.touches[0].clientY - trash.offsetTop - parentRect.top;
-    });
+      const touch = e.touches[0];
+      trash.startX = touch.clientX;
+      trash.startY = touch.clientY;
+      trash.offsetX = trash.offsetLeft;
+      trash.offsetY = trash.offsetTop;
+    }, { passive: true });
+
     trash.addEventListener("touchmove", function(e){
       e.preventDefault();
-      const parentRect = document.querySelector(".game-wrap").getBoundingClientRect();
-      let newLeft = e.touches[0].clientX - trash.initialX - parentRect.left;
-      let newTop = e.touches[0].clientY - trash.initialY - parentRect.top;
+      const touch = e.touches[0];
+      const dx = touch.clientX - trash.startX;
+      const dy = touch.clientY - trash.startY;
 
+      let newLeft = trash.offsetX + dx;
+      let newTop = trash.offsetY + dy;
+
+      const parentRect = document.querySelector(".game-wrap").getBoundingClientRect();
       newLeft = Math.max(0, Math.min(newLeft, parentRect.width - trash.offsetWidth));
       newTop = Math.max(0, Math.min(newTop, parentRect.height - trash.offsetHeight));
 
       trash.style.left = newLeft + "px";
       trash.style.top = newTop + "px";
-    });
+    }, { passive: false });
+
     trash.addEventListener("touchend", function(){
       trash.classList.remove("wiggle");
       checkTouchDrop(trash);
