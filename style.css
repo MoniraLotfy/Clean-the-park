@@ -1,0 +1,227 @@
+
+:root{
+  --bin-size:120px;
+}
+
+html, body{
+  height:100%;
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans', sans-serif;
+}
+
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  background: linear-gradient(160deg,#26e042 0%, #9bcedd 45%, #2ddee4 100%);
+  overflow:hidden;
+  color:#5186ba;
+  text-shadow:0 2px 4px rgba(255,255,255,0.6);
+}
+
+.game-wrap{
+  position:relative;
+  width:95vw;
+  max-width:1100px;
+  height:86vh;
+  max-height:700px;
+  border-radius:18px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.12);
+  background:linear-gradient(180deg, rgba(245, 239, 239, 0.92), rgba(255,255,255,0.05));
+  overflow:hidden;
+}
+
+header{
+  padding:1rem 1.5rem;
+  text-align:center;
+}
+
+h1{
+  margin:0;
+  font-size:clamp(20px, 3vw, 32px);
+}
+
+/* HUD */
+#hud{
+  position:absolute;
+  left:1rem;
+  top:1rem;
+  z-index:30;
+}
+
+#hud div{
+  margin-top:0.25rem;
+  font-weight:700;
+}
+
+#message{
+  font-size:clamp(12px, 2vw, 14px);
+  color:#0b486b;
+}
+
+/* Start Screen */
+#startScreen {
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  color:white;
+  font-size:clamp(18px, 5vw, 28px);
+  backdrop-filter:blur(2px);
+  text-align:center;
+  padding:1rem;
+}
+
+/* Ground */
+.ground{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:44%;
+  background:linear-gradient(180deg,#7ce8f4,#11e218);
+  border-top-left-radius:30px;
+  border-top-right-radius:30px;
+  box-shadow:inset 0 10px 40px rgba(0,0,0,0.08);
+}
+
+/* Bin */
+#bin{
+  position:absolute;
+  width:clamp(80px, 12vw, 120px);
+  height:calc(clamp(80px, 12vw, 120px)*0.9);
+  right:1.25rem;
+  bottom:1.25rem;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(28px, 6vw, 34px);
+  background:rgba(255,255,255,0.45);
+  backdrop-filter:blur(4px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.18);
+  cursor:grab;
+  z-index:40;
+  transition:transform 160ms ease;
+}
+
+#bin.dragging{
+  cursor:grabbing;
+}
+
+#bin.pulse{
+  transform:scale(1.8);
+  transition:transform 160ms ease;
+}
+
+/* Trash */
+.trash{
+  position:absolute;
+  user-select:none;
+  touch-action:none;
+  cursor:pointer;
+  transition:transform 160ms linear, left 300ms linear, top 300ms linear;
+  z-index:20;
+  font-size:clamp(24px, 5vw, 34px);
+  text-shadow:0 2px 10px rgba(0,0,0,0.15);
+}
+
+.trash.wiggle{
+  animation:wig 600ms ease-in-out infinite;
+}
+
+@keyframes wig{
+  0%{transform:rotate(-7deg);}
+  50%{transform:rotate(8deg);}
+  100%{transform:rotate(-7deg);}
+}
+
+/* Paw animation */
+#paw{
+  position:absolute;
+  font-size:40px;
+  display:none;
+  z-index:50;
+  pointer-events:none;
+  user-select:none;
+}
+
+#paw.show{
+  display:block;
+}
+
+/* Instructions */
+#instructions{
+  position:absolute;
+  right:1.25rem;
+  top:1.25rem;
+  text-align:right;
+  font-size:clamp(11px, 2vw, 13px);
+  color:#063249;
+  background:linear-gradient(180deg, rgba(145, 193, 202, 0.3), rgba(26, 122, 186, 0.05));
+  padding:0.5rem 1rem;
+  border-radius:8px;
+  backdrop-filter:blur(2px);
+  z-index:35;
+}
+
+/* Responsive */
+@media(max-width:600px){
+  /* HUD lower than instructions on mobile */
+  #hud{
+    position:static;
+    margin-top:3rem;
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+  }
+
+  #message, #level{
+    font-size:14px;
+  }
+
+  /* Instructions centered above HUD on mobile */
+  #instructions{
+    top:4rem;
+    left:50%;
+    right:auto;
+    transform:translateX(-50%);
+    text-align:center;
+    font-size:1px;
+  }
+
+  #bin{
+    width:70px;
+    height:63px;
+    font-size:28px;
+  }
+
+  .trash{
+    font-size:28px;
+  }
+}
+
+@media(max-width:400px){
+  #bin{
+    width:60px;
+    height:54px;
+    font-size:24px;
+  }
+
+  .trash{
+    font-size:24px;
+  }
+
+  #instructions{
+    font-size:11px;
+  }
+
+  #startScreen{
+    font-size:20px;
+    padding:0.5rem;
+  }
+}
